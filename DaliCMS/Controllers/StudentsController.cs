@@ -83,6 +83,7 @@ namespace DaliCMS.Controllers
             }
             ViewBag.LevelId = new SelectList(db.Levels, "Id", "Name", student.LevelId);
             ViewBag.SchoolId = new SelectList(db.Schools, "Id", "Name", student.SchoolId);
+            student.Debt = Convert.ToInt32(student.Debt);
             return View(student);
         }
 
