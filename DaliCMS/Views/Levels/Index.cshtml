@@ -1,0 +1,55 @@
+﻿@model IPagedList<DaliCMS.Models.Level>
+
+@{
+    ViewBag.Title = "Índice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Account/Login/");
+    }
+}
+
+<h1_special class="text-center"><b>Niveles</b></h1_special>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Agregar nivel", "Create", null, new { @class = "btn btn-main-dali" })
+        </th>
+        <th>
+            <div class="input-group col-sm-7 col-lg-offset-11 pull-right">
+                <input type="text" class="form-control input" placeholder="Nombre del nivel..." />
+                <button class="btn btn-primary" type="button">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
+        </th>
+    </tr>
+</table>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Precio base
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.BasePrice)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+</table>
+<div class="pager">@Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount).Options(o => o.DisplayTemplate("Pagination"))</div>

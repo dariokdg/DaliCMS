@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<div class="jumbotron">
+    <h1 class="text-center"><b>Academia Dalí</b></h1>
+    <p class="lead text-center"><i>Sistema de control interno de la Academia</i></p>
+    <br />
+    @if (Session["UserId"] != null)
+    {
+        <p class="lead text-center"><i>Bienvenido/a, <b>@Session["Username"]</b>!</i></p>
+    }
+    else
+    {
+        <div class="text-center"><button class="btn-primary btn-lg" onclick="location.href='/Account/Register/'">Registrarse</button>  o  <button class="btn-primary btn-lg" onclick="location.href='/Account/Login/'">Iniciar sesión</button></div>
+    }
+
+</div>

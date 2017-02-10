@@ -1,0 +1,51 @@
+﻿@model DaliCMS.Models.Payment
+
+@{
+    ViewBag.Title = "Eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Account/Login/");
+    }
+}
+
+<h1_special class="text-center"><b>Eliminar pago</b></h1_special>
+<h3>Está seguro de querer eliminar esta entrada?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nombre del alumno
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentModel.Name)
+        </dd>
+        <dt>
+            Monto
+        </dt>
+        <dd>
+            $@Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt>
+            Tiene descuento?
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HasDiscount)
+        </dd>
+        <dt>
+            Fecha de pago
+        </dt>
+        <dd>
+            @Model.PaymentDate.ToString("dd/MM/yyyy")
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default btn-sm btn-danger" /> 
+            @Html.ActionLink("Volver a la lista de pagos", "Index", null, new { @class = "btn btn-primary btn-sm" })
+        </div>
+    }
+</div>

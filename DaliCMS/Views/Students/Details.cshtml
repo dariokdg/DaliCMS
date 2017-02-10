@@ -1,0 +1,86 @@
+﻿@model DaliCMS.Models.Student
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Account/Login/");
+    }
+}
+
+<h1_special class="text-center"><b>Detalles del alumno</b></h1_special>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Nombre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            DNI
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DNI)
+        </dd>
+
+        <dt>
+            Dirección
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            Teléfono
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            Fecha de nacimiento
+        </dt>
+
+        <dd>
+            @string.Format("{0:dd/MM/yyyy}", Model.Dateofbirth)
+        </dd>
+
+        <dt>
+            Deuda al día
+        </dt>
+
+        <dd>
+            $@Html.DisplayFor(model => model.Debt)
+        </dd>
+
+        <dt>
+            Nivel
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LevelModel.Name)
+        </dd>
+
+        <dt>
+            Escuela
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolModel.Name)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-success btn-sm" }) 
+    @Html.ActionLink("Volver a la lista de alumnos", "Index", null, new { @class = "btn btn-primary btn-sm" })
+</p>
