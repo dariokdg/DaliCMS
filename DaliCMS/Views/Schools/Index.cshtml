@@ -32,16 +32,16 @@
 <table class="table">
     <tr>
         <th>
-            Nombre
+            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Dirección
+            @Html.ActionLink("Dirección", "Index", new { sortOrder = ViewBag.AddrSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Ciudad
+            @Html.ActionLink("Ciudad", "Index", new { sortOrder = ViewBag.CitySortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Teléfono
+            @Html.ActionLink("Teléfono", "Index", new { sortOrder = ViewBag.PhneSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>

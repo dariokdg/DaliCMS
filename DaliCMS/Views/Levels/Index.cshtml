@@ -32,10 +32,10 @@
 <table class="table">
     <tr>
         <th>
-            Nombre
+            @Html.ActionLink("Nombre del nivel", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Precio base
+            @Html.ActionLink("Precio base", "Index", new { sortOrder = ViewBag.PrceSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>

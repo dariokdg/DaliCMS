@@ -16,14 +16,47 @@ namespace DaliCMS.Controllers
         private DaliCMSContext db = new DaliCMSContext();
 
         // GET: StudentRespAdultRels
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            int DefaultPageSize = 10;
             var studentsRespAdultsRel = db.StudentsRespAdultsRel.Include(s => s.ResponsibleAdultModel).Include(s => s.StudentModel);
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                studentsRespAdultsRel = studentsRespAdultsRel.Where(s => s.ResponsibleAdultModel.Name.Contains(searchString) || s.StudentModel.Name.Contains(searchString));
+            }
+
+            ViewBag.RsAdSortParm = String.IsNullOrEmpty(sortOrder) ? "ResponsibleAdultName_desc" : "";
+            ViewBag.StdtSortParm = sortOrder == "StudentName" ? "StudentName_desc" : "StudentName";
+
+            switch (sortOrder)
+            {
+                case "ResponsibleAdultName_desc":
+                    studentsRespAdultsRel = studentsRespAdultsRel.OrderByDescending(s => s.ResponsibleAdultModel.Name);
+                    break;
+                case "StudentName":
+                    studentsRespAdultsRel = studentsRespAdultsRel.OrderBy(s => s.StudentModel.Name);
+                    break;
+                case "StudentName_desc":
+                    studentsRespAdultsRel = studentsRespAdultsRel.OrderByDescending(s => s.StudentModel.Name);
+                    break;
+                default:
+                    studentsRespAdultsRel = studentsRespAdultsRel.OrderBy(s => s.ResponsibleAdultModel.Name);
+                    break;
+            }
+
+            int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
-            return View(studentsRespAdultsRel.OrderBy(o => o.Id).ToPagedList(currentPageIndex, DefaultPageSize));
-            //var studentsRespAdultsRel = db.StudentsRespAdultsRel.Include(s => s.ResponsibleAdultModel).Include(s => s.StudentModel);
-            //return View(studentsRespAdultsRel.ToList());
+            return View(studentsRespAdultsRel.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 
         // GET: StudentRespAdultRels/Details/5

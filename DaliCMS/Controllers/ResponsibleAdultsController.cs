@@ -16,12 +16,62 @@ namespace DaliCMS.Controllers
         private DaliCMSContext db = new DaliCMSContext();
 
         // GET: ResponsibleAdults
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+
+            var responsibleadults = (IQueryable<ResponsibleAdult>)db.ResponsibleAdults;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                responsibleadults = responsibleadults.Where(s => s.Name.Contains(searchString));
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewBag.AddrSortParm = sortOrder == "Address" ? "Address_desc" : "Address";
+            ViewBag.PhneSortParm = sortOrder == "Phone" ? "Phone_desc" : "Phone";
+            ViewBag.JobNSortParm = sortOrder == "Job" ? "Job_desc" : "Job";
+
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    responsibleadults = responsibleadults.OrderByDescending(s => s.Name);
+                    break;
+                case "Address":
+                    responsibleadults = responsibleadults.OrderBy(s => s.Address);
+                    break;
+                case "Address_desc":
+                    responsibleadults = responsibleadults.OrderByDescending(s => s.Address);
+                    break;
+                case "Phone":
+                    responsibleadults = responsibleadults.OrderBy(s => s.Phone);
+                    break;
+                case "Phone_desc":
+                    responsibleadults = responsibleadults.OrderByDescending(s => s.Phone);
+                    break;
+                case "Job":
+                    responsibleadults = responsibleadults.OrderBy(s => s.JobName);
+                    break;
+                case "Job_desc":
+                    responsibleadults = responsibleadults.OrderByDescending(s => s.JobName);
+                    break;
+                default:
+                    responsibleadults = responsibleadults.OrderBy(s => s.Name);
+                    break;
+            }
+
             int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
-            return View(db.ResponsibleAdults.OrderBy(o => o.Name).ToPagedList(currentPageIndex, DefaultPageSize));
-            //return View(db.ResponsibleAdults.ToList());
+            return View(responsibleadults.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 
         // GET: ResponsibleAdults/Details/5

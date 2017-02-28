@@ -16,14 +16,61 @@ namespace DaliCMS.Controllers
         private DaliCMSContext db = new DaliCMSContext();
 
         // GET: Payments
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            int DefaultPageSize = 10;
             var payments = db.Payments.Include(p => p.StudentModel);
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                payments = payments.Where(s => s.StudentModel.Name.Contains(searchString));
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewBag.AmntSortParm = sortOrder == "Amount" ? "Amount_desc" : "Amount";
+            ViewBag.DsctSortParm = sortOrder == "HasDiscount" ? "HasDiscount_desc" : "HasDiscount";
+            ViewBag.DateSortParm = sortOrder == "PaymentDate" ? "PaymentDate_desc" : "PaymentDate";
+
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    payments = payments.OrderByDescending(s => s.StudentModel.Name);
+                    break;
+                case "Amount":
+                    payments = payments.OrderBy(s => s.Amount);
+                    break;
+                case "Amount_desc":
+                    payments = payments.OrderByDescending(s => s.Amount);
+                    break;
+                case "HasDiscount":
+                    payments = payments.OrderBy(s => s.HasDiscount);
+                    break;
+                case "HasDiscount_desc":
+                    payments = payments.OrderByDescending(s => s.HasDiscount);
+                    break;
+                case "PaymentDate":
+                    payments = payments.OrderBy(s => s.PaymentDate);
+                    break;
+                case "PaymentDate_desc":
+                    payments = payments.OrderByDescending(s => s.PaymentDate);
+                    break;
+                default:
+                    payments = payments.OrderBy(s => s.StudentModel.Name);
+                    break;
+            }
+
+            int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
-            return View(payments.OrderBy(o => o.PaymentDate).ToPagedList(currentPageIndex, DefaultPageSize));
-            //var payments = db.Payments.Include(p => p.StudentModel);
-            //return View(payments.ToList());
+            return View(payments.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 
         // GET: Payments/Create

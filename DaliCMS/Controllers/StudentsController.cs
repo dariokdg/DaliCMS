@@ -18,7 +18,6 @@ namespace DaliCMS.Controllers
         // GET: Students
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            int DefaultPageSize = 10;
             var students = db.Students.Include(s => s.LevelModel).Include(s => s.SchoolModel);
 
             if (searchString != null)
@@ -62,8 +61,8 @@ namespace DaliCMS.Controllers
                     break;
             }
             
+            int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
-
             return View(students.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 

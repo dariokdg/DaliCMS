@@ -32,16 +32,16 @@
 <table class="table">
     <tr>
         <th>
-            Nombre
+            @Html.ActionLink("Nombre del alumno", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Monto
+            @Html.ActionLink("Monto", "Index", new { sortOrder = ViewBag.AmntSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Tiene descuento?
+            @Html.ActionLink("Tiene descuento?", "Index", new { sortOrder = ViewBag.DsctSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Fecha de Pago
+            @Html.ActionLink("Fecha de pago", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>

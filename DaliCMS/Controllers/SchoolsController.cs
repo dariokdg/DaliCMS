@@ -16,12 +16,61 @@ namespace DaliCMS.Controllers
         private DaliCMSContext db = new DaliCMSContext();
 
         // GET: Schools
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            var schools = (IQueryable<School>)db.Schools;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                schools = schools.Where(s => s.Name.Contains(searchString));
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewBag.AddrSortParm = sortOrder == "Address" ? "Address_desc" : "Address";
+            ViewBag.CitySortParm = sortOrder == "City" ? "City_desc" : "City";
+            ViewBag.PhneSortParm = sortOrder == "Phone" ? "Phone_desc" : "Phone";
+
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    schools = schools.OrderByDescending(s => s.Name);
+                    break;
+                case "Address":
+                    schools = schools.OrderBy(s => s.Address);
+                    break;
+                case "Address_desc":
+                    schools = schools.OrderByDescending(s => s.Address);
+                    break;
+                case "City":
+                    schools = schools.OrderBy(s => s.City);
+                    break;
+                case "City_desc":
+                    schools = schools.OrderByDescending(s => s.City);
+                    break;
+                case "Phone":
+                    schools = schools.OrderBy(s => s.Phone);
+                    break;
+                case "Phone_desc":
+                    schools = schools.OrderByDescending(s => s.Phone);
+                    break;
+                default:
+                    schools = schools.OrderBy(s => s.Name);
+                    break;
+            }
+
             int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
-            return View(db.Schools.OrderBy(o => o.Name).ToPagedList(currentPageIndex, DefaultPageSize));
-            //return View(db.Schools.ToList());
+            return View(schools.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 
         // GET: Schools/Details/5

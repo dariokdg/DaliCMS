@@ -16,12 +16,47 @@ namespace DaliCMS.Controllers
         private DaliCMSContext db = new DaliCMSContext();
 
         // GET: Levels
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            var levels = (IQueryable<Level>)db.Levels;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                levels = levels.Where(s => s.Name.Contains(searchString));
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewBag.PrceSortParm = sortOrder == "BasePrice" ? "BasePrice_desc" : "BasePrice";
+
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    levels = levels.OrderByDescending(s => s.Name);
+                    break;
+                case "BasePrice":
+                    levels = levels.OrderBy(s => s.BasePrice);
+                    break;
+                case "BasePrice_desc":
+                    levels = levels.OrderByDescending(s => s.BasePrice);
+                    break;
+                default:
+                    levels = levels.OrderBy(s => s.Name);
+                    break;
+            }
+
             int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
-            return View(db.Levels.OrderBy(o => o.Name).ToPagedList(currentPageIndex, DefaultPageSize));
-            //return View(db.Levels.ToList());
+            return View(levels.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 
         // GET: Levels/Details/5

@@ -12,16 +12,30 @@
 
 <h1_special class="text-center"><b>Alumnos/Adultos responsables</b></h1_special>
 <br />
-<p>
-    @Html.ActionLink("Agregar nueva relación", "Create", null, new { @class = "btn btn-main-dali" })
-</p>
 <table class="table">
     <tr>
         <th>
-            Nombre del Adulto responsable
+            @Html.ActionLink("Agregar nueva relación", "Create", null, new { @class = "btn btn-main-dali" })
         </th>
         <th>
-            Nombre del Alumno
+            <div class="input-group col-sm-7 col-lg-offset-11 pull-right">
+                @using (Html.BeginForm("Index", "StudentRespAdultRels", FormMethod.Get))
+                {
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control input", @placeholder = "Nombre del adulto o del alumno..." })
+                    <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                }
+            </div>
+        </th>
+    </tr>
+</table>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Nombre del Adulto responsable", "Index", new { sortOrder = ViewBag.RsAdSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Nombre del alumno", "Index", new { sortOrder = ViewBag.StdtSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
