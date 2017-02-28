@@ -35,6 +35,7 @@ namespace DaliCMS.Controllers
                 studentsRespAdultsRel = studentsRespAdultsRel.Where(s => s.ResponsibleAdultModel.Name.Contains(searchString) || s.StudentModel.Name.Contains(searchString));
             }
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.RsAdSortParm = String.IsNullOrEmpty(sortOrder) ? "ResponsibleAdultName_desc" : "";
             ViewBag.StdtSortParm = sortOrder == "StudentName" ? "StudentName_desc" : "StudentName";
 

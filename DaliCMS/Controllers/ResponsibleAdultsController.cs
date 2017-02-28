@@ -36,6 +36,7 @@ namespace DaliCMS.Controllers
                 responsibleadults = responsibleadults.Where(s => s.Name.Contains(searchString));
             }
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
             ViewBag.AddrSortParm = sortOrder == "Address" ? "Address_desc" : "Address";
             ViewBag.PhneSortParm = sortOrder == "Phone" ? "Phone_desc" : "Phone";

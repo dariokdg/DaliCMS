@@ -35,6 +35,7 @@ namespace DaliCMS.Controllers
                 schools = schools.Where(s => s.Name.Contains(searchString));
             }
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
             ViewBag.AddrSortParm = sortOrder == "Address" ? "Address_desc" : "Address";
             ViewBag.CitySortParm = sortOrder == "City" ? "City_desc" : "City";

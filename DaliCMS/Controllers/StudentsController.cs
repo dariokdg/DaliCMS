@@ -35,6 +35,7 @@ namespace DaliCMS.Controllers
                 students = students.Where(s => s.Name.Contains(searchString));
             }
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
             ViewBag.DebtSortParm = sortOrder == "Debt" ? "Debt_desc" : "Debt";
             ViewBag.LevlSortParm = sortOrder == "Level" ? "Level_desc" : "Level";
