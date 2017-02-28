@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DaliCMS.Models;
-using MvcPaging;
+using X.PagedList;
 
 namespace DaliCMS.Controllers
 {
@@ -20,7 +20,7 @@ namespace DaliCMS.Controllers
         {
             int DefaultPageSize = 10;
             var studentsRespAdultsRel = db.StudentsRespAdultsRel.Include(s => s.ResponsibleAdultModel).Include(s => s.StudentModel);
-            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+            int currentPageIndex = (page ?? 1);
             return View(studentsRespAdultsRel.OrderBy(o => o.Id).ToPagedList(currentPageIndex, DefaultPageSize));
             //var studentsRespAdultsRel = db.StudentsRespAdultsRel.Include(s => s.ResponsibleAdultModel).Include(s => s.StudentModel);
             //return View(studentsRespAdultsRel.ToList());

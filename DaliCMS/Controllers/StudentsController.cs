@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DaliCMS.Models;
-using MvcPaging;
+using X.PagedList;
 
 namespace DaliCMS.Controllers
 {
@@ -16,14 +16,55 @@ namespace DaliCMS.Controllers
         private DaliCMSContext db = new DaliCMSContext();
 
         // GET: Students
-        public ActionResult Index(int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             int DefaultPageSize = 10;
             var students = db.Students.Include(s => s.LevelModel).Include(s => s.SchoolModel);
-            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
-            return View(students.OrderBy(o => o.Name).ToPagedList(currentPageIndex, DefaultPageSize));
-            //var students = db.Students.Include(s => s.LevelModel).Include(s => s.SchoolModel);
-            //return View(students.ToList());
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.Name.Contains(searchString));
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewBag.DebtSortParm = sortOrder == "Debt" ? "Debt_desc" : "Debt";
+            ViewBag.LevlSortParm = sortOrder == "Level" ? "Level_desc" : "Level";
+
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    students = students.OrderByDescending(s => s.Name);
+                    break;
+                case "Debt":
+                    students = students.OrderBy(s => s.Debt);
+                    break;
+                case "Debt_desc":
+                    students = students.OrderByDescending(s => s.Debt);
+                    break;
+                case "Level":
+                    students = students.OrderBy(s => s.LevelModel.Name);
+                    break;
+                case "Level_desc":
+                    students = students.OrderByDescending(s => s.LevelModel.Name);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.Name);
+                    break;
+            }
+            
+            int currentPageIndex = (page ?? 1);
+
+            return View(students.ToPagedList(currentPageIndex, DefaultPageSize));
         }
 
         // GET: Students/Details/5

@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DaliCMS.Models;
-using MvcPaging;
+using X.PagedList;
 
 namespace DaliCMS.Controllers
 {
@@ -19,7 +19,7 @@ namespace DaliCMS.Controllers
         public ActionResult Index(int? page)
         {
             int DefaultPageSize = 10;
-            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+            int currentPageIndex = (page ?? 1);
             return View(db.Schools.OrderBy(o => o.Name).ToPagedList(currentPageIndex, DefaultPageSize));
             //return View(db.Schools.ToList());
         }

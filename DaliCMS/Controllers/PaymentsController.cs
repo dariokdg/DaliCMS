@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DaliCMS.Models;
-using MvcPaging;
+using X.PagedList;
 
 namespace DaliCMS.Controllers
 {
@@ -20,7 +20,7 @@ namespace DaliCMS.Controllers
         {
             int DefaultPageSize = 10;
             var payments = db.Payments.Include(p => p.StudentModel);
-            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+            int currentPageIndex = (page ?? 1);
             return View(payments.OrderBy(o => o.PaymentDate).ToPagedList(currentPageIndex, DefaultPageSize));
             //var payments = db.Payments.Include(p => p.StudentModel);
             //return View(payments.ToList());
