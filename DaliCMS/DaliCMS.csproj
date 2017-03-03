@@ -458,6 +458,9 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Pagination.cshtml" />
+    <Content Include="Views\Schools\Details.cshtml" />
+    <Content Include="Views\Levels\Details.cshtml" />
+    <Content Include="Views\ResponsibleAdults\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

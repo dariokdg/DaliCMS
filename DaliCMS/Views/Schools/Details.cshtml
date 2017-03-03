@@ -1,0 +1,55 @@
+﻿@model DaliCMS.Models.School
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Account/Login/");
+    }
+}
+
+<h1_special class="text-center"><b>Detalles de la escuela</b></h1_special>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Nombre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Dirección
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            Ciudad
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            Teléfono
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-success btn-sm" })
+    @Html.ActionLink("Volver a la lista de escuelas", "Index", null, new { @class = "btn btn-primary btn-sm" })
+</p>

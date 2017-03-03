@@ -43,10 +43,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ResponsibleAdultModel.Name)
+            @Html.ActionLink(item.ResponsibleAdultModel.Name, "Details", "ResponsibleAdults", new { Id = item.ResponsibleAdultModel.Id }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StudentModel.Name)
+            @Html.ActionLink(item.StudentModel.Name, "Details", "Students", new { Id = item.StudentModel.Id }, null)
         </td>
         <td>
             @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 

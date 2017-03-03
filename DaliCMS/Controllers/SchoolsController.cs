@@ -32,7 +32,11 @@ namespace DaliCMS.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                schools = schools.Where(s => s.Name.Contains(searchString));
+                schools = schools.Where(s => s.Name.Contains(searchString) && !s.Name.Contains("No es estudiante"));
+            }
+            else
+            {
+                schools = schools.Where(s => !s.Name.Contains("No es estudiante"));
             }
 
             ViewBag.CurrentSort = sortOrder;

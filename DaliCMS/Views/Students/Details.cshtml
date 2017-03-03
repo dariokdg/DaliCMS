@@ -68,16 +68,19 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LevelModel.Name)
+            @Html.ActionLink(Model.LevelModel.Name, "Details", "Levels", new { Id = Model.LevelModel.Id }, null)
         </dd>
 
-        <dt>
-            Escuela
-        </dt>
+        @if (Model.SchoolModel.Name != "No es estudiante")
+        {
+            <dt>
+                Escuela
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SchoolModel.Name)
-        </dd>
+            <dd>
+                @Html.ActionLink(Model.SchoolModel.Name, "Details", "Schools", new { Id = Model.SchoolModel.Id }, null)
+            </dd>
+        }
     </dl>
 </div>
 <p>
