@@ -15,6 +15,7 @@ namespace DaliCMS.Models
         [Required(ErrorMessage = "El DNI del alumno es obligatorio")]
         public int DNI { get; set; }
         public string Address { get; set; }
+        public string City { get; set; }
         public string Phone { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

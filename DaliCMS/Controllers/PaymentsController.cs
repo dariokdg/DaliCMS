@@ -38,7 +38,9 @@ namespace DaliCMS.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
             ViewBag.AmntSortParm = sortOrder == "Amount" ? "Amount_desc" : "Amount";
+            ViewBag.MnthSortParm = sortOrder == "MonthYearPaid" ? "MonthYearPaid_desc" : "MonthYearPaid";
             ViewBag.DsctSortParm = sortOrder == "HasDiscount" ? "HasDiscount_desc" : "HasDiscount";
+            ViewBag.PnltSortParm = sortOrder == "HasPenalty" ? "HasPenalty_desc" : "HasPenalty";
             ViewBag.DateSortParm = sortOrder == "PaymentDate" ? "PaymentDate_desc" : "PaymentDate";
 
             switch (sortOrder)
@@ -52,11 +54,23 @@ namespace DaliCMS.Controllers
                 case "Amount_desc":
                     payments = payments.OrderByDescending(s => s.Amount);
                     break;
+                case "MonthYearPaid":
+                    payments = payments.OrderBy(s => s.MonthYearPaid);
+                    break;
+                case "MonthYearPaid_desc":
+                    payments = payments.OrderByDescending(s => s.MonthYearPaid);
+                    break;
                 case "HasDiscount":
                     payments = payments.OrderBy(s => s.HasDiscount);
                     break;
                 case "HasDiscount_desc":
                     payments = payments.OrderByDescending(s => s.HasDiscount);
+                    break;
+                case "HasPenalty":
+                    payments = payments.OrderBy(s => s.HasPenalty);
+                    break;
+                case "HasPenalty_desc":
+                    payments = payments.OrderByDescending(s => s.HasPenalty);
                     break;
                 case "PaymentDate":
                     payments = payments.OrderBy(s => s.PaymentDate);
@@ -93,7 +107,7 @@ namespace DaliCMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Amount,CancellationAmount,HasDiscount,PaymentDate,StudentId")] Payment payment)
+        public ActionResult Create([Bind(Include = "Id,Amount,CancellationAmount,HasDiscount,HasPenalty,PaymentDate,MonthYearPaid,StudentId")] Payment payment)
         {
             if (ModelState.IsValid)
             {
@@ -103,14 +117,20 @@ namespace DaliCMS.Controllers
                 {
                     return HttpNotFound();
                 }
-                decimal discount = 0;
+                decimal adjustment = 0;
                 payment.HasDiscount = false;
-                if (payment.PaymentDate.Day <= 10 && payment.PaymentDate.Month == DateTime.Now.Month)
+                payment.HasPenalty = false;
+                if (payment.PaymentDate.Day <= 10 && (payment.MonthYearPaid.Month == DateTime.Now.Month && payment.MonthYearPaid.Year == DateTime.Now.Year))
                 {
-                    discount = 10;
+                    adjustment = 5;
                     payment.HasDiscount = true;
                 }
-                payment.CancellationAmount = payment.Amount / (100 - discount) * 100;
+                else if (payment.PaymentDate.Day >= 1 && (payment.MonthYearPaid.Month > DateTime.Now.Month && payment.MonthYearPaid.Year == DateTime.Now.Year))
+                {
+                    adjustment = -10;
+                    payment.HasPenalty = true;
+                }
+                payment.CancellationAmount = payment.Amount / (100 - adjustment) * 100;
                 student.Debt = student.Debt - payment.CancellationAmount;
                 db.SaveChanges();
                 return RedirectToAction("Index");

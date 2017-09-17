@@ -27,10 +27,22 @@
             $@Html.DisplayFor(model => model.Amount)
         </dd>
         <dt>
+            Mes/año pagado
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MonthYearPaid)
+        </dd>
+        <dt>
             Tiene descuento?
         </dt>
         <dd>
             @Html.DisplayFor(model => model.HasDiscount)
+        </dd>
+        <dt>
+            Tiene recargo?
+        </dt>
+        <dd>
+            Html.DisplayFor(model => model.HasPenalty)
         </dd>
         <dt>
             Fecha de pago

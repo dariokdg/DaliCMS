@@ -38,7 +38,13 @@
             @Html.ActionLink("Monto", "Index", new { sortOrder = ViewBag.AmntSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
+            @Html.ActionLink("Mes/año pagado", "Index", new { sortOrder = ViewBag.MnthSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
             @Html.ActionLink("Tiene descuento?", "Index", new { sortOrder = ViewBag.DsctSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Tiene recargo?", "Index", new { sortOrder = ViewBag.PnltSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             @Html.ActionLink("Fecha de pago", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
@@ -55,7 +61,13 @@
             $@Html.DisplayFor(modelItem => item.Amount)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.MonthYearPaid)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.HasDiscount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HasPenalty)
         </td>
         <td>
             @item.PaymentDate.ToString("dd/MM/yyyy")
