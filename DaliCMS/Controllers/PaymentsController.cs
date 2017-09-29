@@ -180,5 +180,17 @@ namespace DaliCMS.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpPost]
+        public JsonResult GetStudentDebt(string StudentId)
+        {
+            int Student = Convert.ToInt32(StudentId);
+            Student SelectedStudent = db.Students.FirstOrDefault(s => s.Id == Student);
+            if (SelectedStudent != null)
+            {
+                return Json(new { success = true, studentDebt = Convert.ToDecimal(SelectedStudent.Debt) }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false });
+        }
     }
 }
