@@ -30,7 +30,7 @@
 </table>
 <br />
 <table class="table">
-    <tr>
+    <tr bgcolor="#E5E5E5">
         <th>
             @Html.ActionLink("Nombre del alumno", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -49,34 +49,36 @@
         <th>
             @Html.ActionLink("Fecha de pago", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
-        <th></th>
+        <th>
+            Acciones
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StudentModel.Name)
-        </td>
-        <td>
-            $@Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MonthYearPaid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HasDiscount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HasPenalty)
-        </td>
-        <td>
-            @item.PaymentDate.ToString("dd/MM/yyyy")
-        </td>
-        <td>
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr bgcolor="#E5E5E5">
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentModel.Name)
+            </td>
+            <td style="font-weight:bold">
+                $@Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.MonthYearPaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasDiscount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasPenalty)
+            </td>
+            <td>
+                @item.PaymentDate.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
 
 </table>
 

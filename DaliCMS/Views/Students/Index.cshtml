@@ -30,7 +30,7 @@
 </table>
 <br />
 <table class="table">
-    <tr>
+    <tr bgcolor="#E5E5E5">
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -40,28 +40,30 @@
         <th>
             @Html.ActionLink("Nivel", "Index", new { sortOrder = ViewBag.LevlSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
-        <th></th>
+        <th style="text-align:center">
+            Acciones
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            $@Html.DisplayFor(modelItem => item.Debt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LevelModel.Name)
-        </td>
-        <td align="center">
-            @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 
-            @Html.ActionLink("Detalles", "Details", new { id=item.Id }, new { @class = "btn btn-primary btn-sm" }) 
-            @Html.ActionLink("Registrar pago", "Create", "Payments", new { StudentId = item.Id }, new { @class = "btn btn-main-dali btn-sm" })
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr bgcolor="#E5E5E5">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td style="font-weight:bold">
+                $@Html.DisplayFor(modelItem => item.Debt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LevelModel.Name)
+            </td>
+            <td align="center">
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 
+                @Html.ActionLink("Detalles", "Details", new { id=item.Id }, new { @class = "btn btn-primary btn-sm" }) 
+                @Html.ActionLink("Registrar pago", "Create", "Payments", new { StudentId = item.Id }, new { @class = "btn btn-main-dali btn-sm" })
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
 </table>
 
 @if (Model.PageCount > 1)

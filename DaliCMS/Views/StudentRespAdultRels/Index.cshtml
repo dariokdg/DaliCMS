@@ -30,30 +30,32 @@
 </table>
 <br />
 <table class="table">
-    <tr>
+    <tr bgcolor="#E5E5E5">
         <th>
             @Html.ActionLink("Nombre del Adulto responsable", "Index", new { sortOrder = ViewBag.RsAdSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             @Html.ActionLink("Nombre del alumno", "Index", new { sortOrder = ViewBag.StdtSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
-        <th></th>
+        <th>
+            Acciones
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.ResponsibleAdultModel.Name, "Details", "ResponsibleAdults", new { Id = item.ResponsibleAdultModel.Id }, null)
-        </td>
-        <td>
-            @Html.ActionLink(item.StudentModel.Name, "Details", "Students", new { Id = item.StudentModel.Id }, null)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr bgcolor="#E5E5E5">
+            <td>
+                @Html.ActionLink(item.ResponsibleAdultModel.Name, "Details", "ResponsibleAdults", new { Id = item.ResponsibleAdultModel.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.StudentModel.Name, "Details", "Students", new { Id = item.StudentModel.Id }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
 
 </table>
 

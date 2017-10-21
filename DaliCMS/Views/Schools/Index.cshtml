@@ -30,7 +30,7 @@
 </table>
 <br />
 <table class="table">
-    <tr>
+    <tr bgcolor="#E5E5E5">
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -43,12 +43,14 @@
         <th>
             @Html.ActionLink("Teléfono", "Index", new { sortOrder = ViewBag.PhneSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
-        <th></th>
+        <th>
+            Acciones
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr bgcolor="#E5E5E5">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
