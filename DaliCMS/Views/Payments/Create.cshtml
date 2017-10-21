@@ -60,7 +60,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Agregar pago" class="btn btn-success" />
+                <input type="submit" id="submitPayment" value="Agregar pago" class="btn btn-success"/>
             </div>
         </div>
     </div>
@@ -76,35 +76,18 @@
     <script type="text/javascript">
         $(function () {
             $('#myDatepicker').datepicker({
-                format: "dd/mm/yyyy",
+                format: "mm/yyyy",
                 startView: "year",
                 minViewMode: "months",
                 language: "es",
             })
         });
-    </script>
-
-    <script type="text/javascript">
-    $(function(){
-        $("#studentSelected").change(function () {
-            var StudentSelected = $(this).val();
-            if (StudentSelected !== "") {
-                $.ajax({
-                    url: '@Url.Action("GetStudentDebt", "Payments")',
-                    type: 'POST',
-                    data: {
-                        StudentId: StudentSelected,
-                    },
-                    success: function (result) {
-                        $('#studentDebt').text("$" + result.studentDebt);
-                    }
-                });
-            }
+        $(function () {
+            $('#submitPayment').click(function () {
+                document.getElementById("myDatepicker").value = $('#myDatepicker').val().toString().replace(/\//i, "\/01\/");
+                return true;
+            });
         });
-    });
-    </script>
-
-    <script type="text/javascript">
         $(document).ready(function () {
             var StudentSelected = $('#studentSelected').val();
             if (StudentSelected !== "") {
@@ -119,6 +102,23 @@
                     }
                 });
             }
+        });
+        $(function () {
+            $("#studentSelected").change(function () {
+                var StudentSelected = $(this).val();
+                if (StudentSelected !== "") {
+                    $.ajax({
+                        url: '@Url.Action("GetStudentDebt", "Payments")',
+                        type: 'POST',
+                        data: {
+                            StudentId: StudentSelected,
+                        },
+                        success: function (result) {
+                            $('#studentDebt').text("$" + result.studentDebt);
+                        }
+                    });
+                }
+            });
         });
     </script>
 }

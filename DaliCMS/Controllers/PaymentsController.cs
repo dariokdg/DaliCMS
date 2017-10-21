@@ -120,12 +120,12 @@ namespace DaliCMS.Controllers
                 decimal adjustment = 0;
                 payment.HasDiscount = false;
                 payment.HasPenalty = false;
-                if (payment.PaymentDate.Day <= 10 && (payment.MonthYearPaid.Month == DateTime.Now.Month && payment.MonthYearPaid.Year == DateTime.Now.Year))
+                if (payment.PaymentDate.Day <= 10 && (payment.MonthYearPaid.Month == payment.PaymentDate.Month && payment.MonthYearPaid.Year == payment.PaymentDate.Year))
                 {
                     adjustment = 5;
                     payment.HasDiscount = true;
                 }
-                else if (payment.PaymentDate.Day >= 1 && (payment.MonthYearPaid.Month > DateTime.Now.Month && payment.MonthYearPaid.Year == DateTime.Now.Year))
+                else if (payment.PaymentDate.Day >= 1 && (payment.MonthYearPaid.Month > payment.PaymentDate.Month && payment.MonthYearPaid.Year == payment.PaymentDate.Year))
                 {
                     adjustment = -10;
                     payment.HasPenalty = true;
