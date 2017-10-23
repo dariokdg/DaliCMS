@@ -122,18 +122,31 @@ namespace DaliCMS.Controllers
                 payment.HasPenalty = false;
                 if (payment.PaymentDate.Day <= 10 && (payment.PaymentDate.Month == payment.MonthYearPaid.Month && payment.PaymentDate.Year == payment.MonthYearPaid.Year))
                 {
-                    adjustment = 5;
+                    adjustment = adjustment + 5;
                     payment.HasDiscount = true;
                 }
                 else if (payment.PaymentDate.Month < payment.MonthYearPaid.Month || payment.PaymentDate.Year < payment.MonthYearPaid.Year)
                 {
-                    adjustment = 5;
+                    adjustment = adjustment + 5;
                     payment.HasDiscount = true;
                 }
                 else if (payment.PaymentDate.Month > payment.MonthYearPaid.Month || payment.PaymentDate.Year > payment.MonthYearPaid.Year)
                 {
-                    adjustment = -10;
+                    adjustment = adjustment - 10;
                     payment.HasPenalty = true;
+                }
+                //if this student is the child of an adult that has signed up more than one of their children, this payment gets 10% off
+                //THIS IS A NEW FEATURE - NEEDS TESTING
+                List<StudentRespAdultRel> ResponsibleAdultsRel = student.StudentRespAdultRels.Where(Rel => Rel.StudentId == student.Id).ToList();
+                foreach (StudentRespAdultRel RespAdultRel in ResponsibleAdultsRel)
+                {
+                    ResponsibleAdult RA = RespAdultRel.ResponsibleAdultModel;
+                    if (RA.StudentRespAdultRels.Where(Rel => Rel.ResponsibleAdultId == RA.Id).ToList().Count() > 1)
+                    {
+                        adjustment = adjustment + 20;
+                        payment.HasDiscount = true;
+                        break;
+                    }
                 }
                 payment.CancellationAmount = payment.Amount / (100 - adjustment) * 100;
                 student.Debt = student.Debt - payment.CancellationAmount;
