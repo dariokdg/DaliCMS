@@ -36,15 +36,18 @@ namespace DaliCMS.Controllers
             }
 
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "Name";
             ViewBag.AmntSortParm = sortOrder == "Amount" ? "Amount_desc" : "Amount";
-            ViewBag.MnthSortParm = sortOrder == "MonthYearPaid" ? "MonthYearPaid_desc" : "MonthYearPaid";
+            ViewBag.MnthSortParm = sortOrder == "MonthYearPaid" ? "" : "MonthYearPaid";
             ViewBag.DsctSortParm = sortOrder == "HasDiscount" ? "HasDiscount_desc" : "HasDiscount";
             ViewBag.PnltSortParm = sortOrder == "HasPenalty" ? "HasPenalty_desc" : "HasPenalty";
             ViewBag.DateSortParm = sortOrder == "PaymentDate" ? "PaymentDate_desc" : "PaymentDate";
 
             switch (sortOrder)
             {
+                case "Name":
+                    payments = payments.OrderBy(s => s.StudentModel.Name);
+                    break;
                 case "Name_desc":
                     payments = payments.OrderByDescending(s => s.StudentModel.Name);
                     break;
@@ -56,9 +59,6 @@ namespace DaliCMS.Controllers
                     break;
                 case "MonthYearPaid":
                     payments = payments.OrderBy(s => s.MonthYearPaid);
-                    break;
-                case "MonthYearPaid_desc":
-                    payments = payments.OrderByDescending(s => s.MonthYearPaid);
                     break;
                 case "HasDiscount":
                     payments = payments.OrderBy(s => s.HasDiscount);
@@ -79,7 +79,7 @@ namespace DaliCMS.Controllers
                     payments = payments.OrderByDescending(s => s.PaymentDate);
                     break;
                 default:
-                    payments = payments.OrderBy(s => s.StudentModel.Name);
+                    payments = payments.OrderByDescending(s => s.MonthYearPaid);
                     break;
             }
 
@@ -135,8 +135,6 @@ namespace DaliCMS.Controllers
                     adjustment = adjustment - 10;
                     payment.HasPenalty = true;
                 }
-                //if this student is the child of an adult that has signed up more than one of their children, this payment gets 10% off
-                //THIS IS A NEW FEATURE - NEEDS TESTING
                 List<StudentRespAdultRel> ResponsibleAdultsRel = student.StudentRespAdultRels.Where(Rel => Rel.StudentId == student.Id).ToList();
                 foreach (StudentRespAdultRel RespAdultRel in ResponsibleAdultsRel)
                 {
