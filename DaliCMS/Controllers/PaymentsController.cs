@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DaliCMS.Models;
 using X.PagedList;
@@ -99,8 +98,6 @@ namespace DaliCMS.Controllers
             {
                 ViewBag.StudentId = new SelectList(db.Students, "ID", "Name", db.Students.Select(x => x.Id == StudentId).FirstOrDefault());
             }
-
-
             return View();
         }
 
