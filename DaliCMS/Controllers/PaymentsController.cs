@@ -209,7 +209,6 @@ namespace DaliCMS.Controllers
         }
 
         //This implementation of the "GetStudentSiblings" is working but it is painfully slow - need to make it faster.
-        //https://github.com/dariokdg/DaliCMS/issues/1
         [HttpPost]
         public JsonResult GetStudentSiblings(string StudentId)
         {
