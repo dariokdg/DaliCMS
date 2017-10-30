@@ -99,6 +99,8 @@ namespace DaliCMS.Controllers
             {
                 ViewBag.StudentId = new SelectList(db.Students, "ID", "Name", db.Students.Select(x => x.Id == StudentId).FirstOrDefault());
             }
+
+
             return View();
         }
 
@@ -205,6 +207,25 @@ namespace DaliCMS.Controllers
             if (SelectedStudent != null)
             {
                 return Json(new { success = true, studentDebt = Convert.ToDecimal(SelectedStudent.Debt) }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false });
+        }
+
+        //This implementation of the "GetStudentSiblings" is working but it is painfully slow - need to make it faster.
+        [HttpPost]
+        public JsonResult GetStudentSiblings(string StudentId)
+        {
+            int Student = Convert.ToInt32(StudentId);
+            Student SelectedStudent = db.Students.FirstOrDefault(s => s.Id == Student);
+            if (SelectedStudent != null)
+            {
+                StudentRespAdultRel relations = SelectedStudent.StudentRespAdultRels.FirstOrDefault();
+                int SignedUpChildrenPerRespAdult = 0;
+                if (relations != null)
+                {
+                    SignedUpChildrenPerRespAdult = relations.ResponsibleAdultModel.StudentRespAdultRels.Count();
+                }
+                return Json(new { success = true, studentSiblings = SignedUpChildrenPerRespAdult >= 2 }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { success = false });
         }

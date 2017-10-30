@@ -36,6 +36,13 @@
         </div>
 
         <div class="form-group">
+            @Html.Label("Hermanos/as", htmlAttributes: new { @class = "text-right col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBox("Hermanos/as", htmlAttributes: new { @id = "siblings" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.Label("Monto", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
@@ -97,8 +104,18 @@
                     data: {
                         StudentId: StudentSelected,
                     },
-                    success: function (result) {
-                        $('#studentDebt').text("$" + result.studentDebt);
+                    success: function (result1) {
+                        $('#studentDebt').text("$" + result1.studentDebt);
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("GetStudentSiblings", "Payments")',
+                    type: 'POST',
+                    data: {
+                        StudentId: StudentSelected,
+                    },
+                    success: function (result2) {
+                        $('#siblings').prop('checked', result2.studentSiblings);
                     }
                 });
             }
@@ -113,8 +130,18 @@
                         data: {
                             StudentId: StudentSelected,
                         },
-                        success: function (result) {
-                            $('#studentDebt').text("$" + result.studentDebt);
+                        success: function (result1) {
+                            $('#studentDebt').text("$" + result1.studentDebt);
+                        }
+                    });
+                    $.ajax({
+                        url: '@Url.Action("GetStudentSiblings", "Payments")',
+                        type: 'POST',
+                        data: {
+                            StudentId: StudentSelected,
+                        },
+                        success: function (result2) {
+                            $('#siblings').prop('checked', result2.studentSiblings);
                         }
                     });
                 }
