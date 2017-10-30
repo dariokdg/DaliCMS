@@ -19,7 +19,7 @@ namespace DaliCMS.Controllers
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var students = db.Students.Include(s => s.LevelModel).Include(s => s.SchoolModel);
-
+            
             if (searchString != null)
             {
                 page = 1;
@@ -61,7 +61,18 @@ namespace DaliCMS.Controllers
                     students = students.OrderBy(s => s.Name);
                     break;
             }
-            
+
+            foreach (Student student in students)
+            {
+                StudentRespAdultRel relations = student.StudentRespAdultRels.FirstOrDefault();
+                int SignedUpChildrenPerRespAdult = 0;
+                if (relations != null)
+                {
+                    SignedUpChildrenPerRespAdult = relations.ResponsibleAdultModel.StudentRespAdultRels.Count();
+                }
+                student.Siblings = SignedUpChildrenPerRespAdult >= 2;
+            }
+
             int DefaultPageSize = 10;
             int currentPageIndex = (page ?? 1);
             return View(students.ToPagedList(currentPageIndex, DefaultPageSize));

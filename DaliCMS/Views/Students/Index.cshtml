@@ -40,6 +40,9 @@
         <th>
             @Html.ActionLink("Nivel", "Index", new { sortOrder = ViewBag.LevlSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
+        <th>
+            Hermanos/as
+        </th>
         <th style="text-align:center">
             Acciones
         </th>
@@ -55,6 +58,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LevelModel.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Siblings)
             </td>
             <td align="center">
                 @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-success btn-sm" }) 

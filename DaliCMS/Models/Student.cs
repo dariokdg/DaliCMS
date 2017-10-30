@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -27,5 +28,8 @@ namespace DaliCMS.Models
         public virtual School SchoolModel { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<StudentRespAdultRel> StudentRespAdultRels { get; set; }
+
+        [NotMapped]
+        public bool Siblings { get; set; }
     }
 }
