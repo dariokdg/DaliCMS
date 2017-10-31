@@ -208,24 +208,17 @@ namespace DaliCMS.Controllers
             return Json(new { success = false });
         }
 
-        //This implementation of the "GetStudentSiblings" is working but it is painfully slow - need to make it faster.
-        //https://github.com/dariokdg/DaliCMS/issues/1
+        //This implementation of the "GetStudentSiblings" is working and even though it's faster now, it's still somewhat slow - need to make it faster.
         [HttpPost]
         public JsonResult GetStudentSiblings(string StudentId)
         {
             int Student = Convert.ToInt32(StudentId);
-            Student SelectedStudent = db.Students.FirstOrDefault(s => s.Id == Student);
-            if (SelectedStudent != null)
+            int? SiblingsCount = db.Students.FirstOrDefault(s => s.Id == Student)?.StudentRespAdultRels.FirstOrDefault()?.ResponsibleAdultModel.StudentRespAdultRels.Count();
+            if (SiblingsCount != null && SiblingsCount >= 2)
             {
-                StudentRespAdultRel relations = SelectedStudent.StudentRespAdultRels.FirstOrDefault();
-                int SignedUpChildrenPerRespAdult = 0;
-                if (relations != null)
-                {
-                    SignedUpChildrenPerRespAdult = relations.ResponsibleAdultModel.StudentRespAdultRels.Count();
-                }
-                return Json(new { success = true, studentSiblings = SignedUpChildrenPerRespAdult >= 2 }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, studentSiblings = true }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = false });
+            return Json(new { success = false, studentSiblings = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }
