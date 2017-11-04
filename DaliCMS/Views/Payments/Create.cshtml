@@ -122,8 +122,8 @@
         });
         $(function () {
             $("#studentSelected").change(function () {
-                $('#myOverlay').css({ "position": "fixed", "left": "0", "height": "100%", "width": "100%", "background": "black", "opacity": ".15", "z-index": "2" }).fadeIn(500);
-                $('#loadingGIF').css({ "position": "fixed", "top": "33%", "left": "50%", "z-index": "3" }).fadeIn(500);
+                $('#myOverlay').css({ "position": "fixed", "left": "0", "height": "100%", "width": "100%", "background": "black", "opacity": ".15", "z-index": "2" }).fadeIn();
+                $('#loadingGIF').css({ "position": "fixed", "top": "33%", "left": "50%", "z-index": "3" }).fadeIn();
                 var StudentSelected = $(this).val();
                 if (StudentSelected !== "") {
                     $.ajax({
@@ -144,8 +144,8 @@
                         },
                         success: function (result2) {
                             $('#siblings').prop('checked', result2.studentSiblings);
-                            $('#myOverlay').fadeOut(350);
-                            $('#loadingGIF').fadeOut(350);
+                            $('#myOverlay').fadeOut();
+                            $('#loadingGIF').fadeOut();
                         }
                     });
                 }
