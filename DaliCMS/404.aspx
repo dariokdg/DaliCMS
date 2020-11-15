@@ -24,7 +24,7 @@
             <div class="container body-content">
                 <hr />
                 <footer>
-                    <p>&copy; 2017 - Darío De Giacomo</p>
+                    <p>&copy; 2020 - Darío De Giacomo</p>
                 </footer>
             </div>
         </div>
